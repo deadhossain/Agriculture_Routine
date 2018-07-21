@@ -1,0 +1,1114 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package agricultureproject;
+
+import com.toedter.calendar.JDateChooser;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+
+
+/**
+ *
+ * @author Neen
+ */
+public class AdminPanel extends javax.swing.JFrame {
+
+    /**
+     * Creates new form Main
+     */
+    HashMap hm = new HashMap();
+    DatabaseConnection dc = new DatabaseConnection();
+    frameLogin login;
+    
+    
+    
+    public AdminPanel(String farmer_id, String memeber_type, String user_name) 
+    {
+        initComponents();
+        lblFarmerId.setText(farmer_id);
+        lblFarmerType.setText(memeber_type);
+        lblWelcomeUser.setText(user_name);
+        comboPlantId.setVisible(false);
+        lblFarmerId.setVisible(false);
+        lblFarmerType.setVisible(false);
+        panelSwitch(pnlPlantSetup);
+        ReloadPlantSetp();           
+    }
+    
+    public AdminPanel()
+    {
+        initComponents();
+    }
+    
+    
+    public void tableWidth(JTable table)
+    {
+        TableColumnModel m = table.getColumnModel();
+        TableModel m1 = table.getModel();
+        int totalColumn = m.getColumnCount();
+        for (int i=0;i<totalColumn;i++)
+        {
+            int length = 0;
+            int totalRow = m1.getRowCount();
+            for (int j=0;j<totalRow;j++)
+            {
+                if(m1.getValueAt(j, i)!=null)
+                {
+                    int length2 = m1.getValueAt(j, i).toString().length()*8;
+                    if(length2>length)
+                    {
+                        length = length2;
+                    }
+                }
+                m.getColumn(i).setMinWidth(length);
+            }           
+        }
+    }
+    
+    
+    public void tableBody(JTable table)
+    {
+        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+        public Component getTableCellRendererComponent(JTable table, 
+                Object value, boolean isSelected, boolean hasFocus,
+                int row, int column) {
+            Component c = super.getTableCellRendererComponent(table, 
+                value, isSelected, hasFocus, row, column);
+            c.setBackground(row%2==0 ? Color.LIGHT_GRAY : Color.white);                        
+            return c;
+        };
+        });
+    }
+    
+    public void tableHeader(JTable table)
+    {
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(Color.white);
+        header.setForeground(new Color(153,0,0));
+        header.setFont(new Font("Monospaced", Font.ROMAN_BASELINE, 18));
+    }
+    
+    public void refreshPanelBase()
+    {
+        pnlBase.repaint();
+        pnlBase.revalidate();
+    }
+    
+    public void panelSwitch(Component comp)
+    {
+        pnlBase.removeAll(); 
+        pnlBase.add(comp);
+        refreshPanelBase();
+    }
+    
+    public void setComponentColor(Component comp){
+        comp.setBackground(new Color(146, 201, 118));
+    }
+    
+    public void resetComponentColor(Component comp){
+        comp.setBackground(new Color(76, 161, 66));
+    }
+    
+    public void setBtnColor(Component comp){
+        comp.setBackground(new Color(185, 233, 252));
+    }
+    
+    public void resetBtnColor(Component comp){
+        comp.setBackground(new Color(217,235,249));
+    }
+
+    public void ReloadPlantSetp(){
+        panelSwitch(pnlPlantSetup);
+        comboPlantName.removeAllItems();
+        comboPlantId.removeAllItems();
+        HashMap<Integer,HashMap> plant_setup = new HashMap<>();
+
+        plant_setup = dc.getAllInformation("plant_setup_mst_tb","");
+      
+        for (Object key : plant_setup.keySet())
+        {
+            comboPlantId.addItem(plant_setup.get(key).get("id").toString());
+            comboPlantName.addItem(plant_setup.get(key).get("plant_name").toString());   
+        }
+        refreshPanelBase();
+        System.out.println("Called");
+        tableWidth(tablePlantSetup);
+        for (int i=0;i<=comboPlantName.getItemCount()-1;i++)
+        {
+            System.out.println(comboPlantName.getItemAt(i));
+        }
+    }
+    
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        mainPanel = new javax.swing.JPanel();
+        sideNavPanel = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        navPlantSetup = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        navCure = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        lblFarmerType = new javax.swing.JLabel();
+        lblFarmerId = new javax.swing.JLabel();
+        navLogout = new javax.swing.JPanel();
+        labelLogout = new javax.swing.JLabel();
+        lblWelcomeUser = new javax.swing.JLabel();
+        headerPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        pnlBase = new javax.swing.JLayeredPane();
+        pnlPlantSetup = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        comboPlantId = new javax.swing.JComboBox<String>();
+        jLabel18 = new javax.swing.JLabel();
+        jPanel18 = new javax.swing.JPanel();
+        comboPlantName = new javax.swing.JComboBox<String>();
+        jLabel32 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        txtPlantDescription = new javax.swing.JTextArea();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel19 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablePlantSetup = new javax.swing.JTable();
+        pnlDiseaseCure = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        tfSearchDisease = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableDisease = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        btnUpdate = new javax.swing.JButton();
+        jPanel21 = new javax.swing.JPanel();
+        btnCure = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Admin panel");
+        setName("User Panel"); // NOI18N
+
+        mainPanel.setBackground(new java.awt.Color(255, 255, 255));
+        mainPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        sideNavPanel.setBackground(new java.awt.Color(105, 190, 93));
+        sideNavPanel.setPreferredSize(new java.awt.Dimension(290, 462));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/farmer.png"))); // NOI18N
+
+        navPlantSetup.setBackground(new java.awt.Color(76, 161, 66));
+        navPlantSetup.setPreferredSize(new java.awt.Dimension(174, 43));
+        navPlantSetup.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                navPlantSetupMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                navPlantSetupMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                navPlantSetupMouseExited(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/rake.png"))); // NOI18N
+        jLabel6.setText("Plant Setup");
+
+        javax.swing.GroupLayout navPlantSetupLayout = new javax.swing.GroupLayout(navPlantSetup);
+        navPlantSetup.setLayout(navPlantSetupLayout);
+        navPlantSetupLayout.setHorizontalGroup(
+            navPlantSetupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navPlantSetupLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        navPlantSetupLayout.setVerticalGroup(
+            navPlantSetupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navPlantSetupLayout.createSequentialGroup()
+                .addComponent(jLabel6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        navCure.setBackground(new java.awt.Color(76, 161, 66));
+        navCure.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                navCureMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                navCureMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                navCureMouseExited(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/germs.png"))); // NOI18N
+        jLabel8.setText("Disease & Cure");
+
+        javax.swing.GroupLayout navCureLayout = new javax.swing.GroupLayout(navCure);
+        navCure.setLayout(navCureLayout);
+        navCureLayout.setHorizontalGroup(
+            navCureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navCureLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        navCureLayout.setVerticalGroup(
+            navCureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+        );
+
+        lblFarmerType.setText("Farmer");
+
+        lblFarmerId.setText("1");
+
+        navLogout.setBackground(new java.awt.Color(76, 161, 66));
+        navLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                navLogoutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                navLogoutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                navLogoutMouseExited(evt);
+            }
+        });
+
+        labelLogout.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        labelLogout.setForeground(new java.awt.Color(255, 255, 255));
+        labelLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout.png"))); // NOI18N
+        labelLogout.setText("Logout");
+        labelLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelLogoutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                labelLogoutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                labelLogoutMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout navLogoutLayout = new javax.swing.GroupLayout(navLogout);
+        navLogout.setLayout(navLogoutLayout);
+        navLogoutLayout.setHorizontalGroup(
+            navLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navLogoutLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(labelLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        navLogoutLayout.setVerticalGroup(
+            navLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelLogout, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+        );
+
+        lblWelcomeUser.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        lblWelcomeUser.setForeground(new java.awt.Color(255, 255, 255));
+        lblWelcomeUser.setToolTipText("");
+
+        javax.swing.GroupLayout sideNavPanelLayout = new javax.swing.GroupLayout(sideNavPanel);
+        sideNavPanel.setLayout(sideNavPanelLayout);
+        sideNavPanelLayout.setHorizontalGroup(
+            sideNavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sideNavPanelLayout.createSequentialGroup()
+                .addGroup(sideNavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(navCure, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(navPlantSetup, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                    .addComponent(navLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 1, Short.MAX_VALUE))
+            .addGroup(sideNavPanelLayout.createSequentialGroup()
+                .addGroup(sideNavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(sideNavPanelLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(lblFarmerType)
+                        .addGap(49, 49, 49)
+                        .addComponent(lblFarmerId))
+                    .addGroup(sideNavPanelLayout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel3)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sideNavPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblWelcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
+        );
+        sideNavPanelLayout.setVerticalGroup(
+            sideNavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sideNavPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblWelcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(navPlantSetup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(navCure, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(navLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addGroup(sideNavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFarmerType)
+                    .addComponent(lblFarmerId))
+                .addGap(42, 42, 42))
+        );
+
+        mainPanel.add(sideNavPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 640));
+
+        headerPanel.setBackground(new java.awt.Color(245, 244, 246));
+        headerPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        headerPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
+        jLabel1.setText("Cultivator Assistant");
+        headerPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, -1, 40));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vegetables (1).png"))); // NOI18N
+        headerPanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, 70, -1));
+
+        mainPanel.add(headerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 900, -1));
+
+        pnlBase.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 102)));
+        pnlBase.setLayout(new javax.swing.OverlayLayout(pnlBase));
+
+        pnlPlantSetup.setBackground(new java.awt.Color(255, 255, 255));
+        pnlPlantSetup.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel8.setBackground(new java.awt.Color(70, 147, 21));
+        jPanel8.setPreferredSize(new java.awt.Dimension(131, 43));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/rake.png"))); // NOI18N
+        jLabel11.setText("Plant Setup");
+        jPanel8.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 2, 131, 30));
+
+        pnlPlantSetup.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 40));
+
+        pnlPlantSetup.add(comboPlantId, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 60, 20));
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
+        jLabel18.setText("Procedure to cultivate the following plant>>>>>");
+        pnlPlantSetup.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 500, 40));
+
+        jPanel18.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel18.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Select a Plant to see its Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 14))); // NOI18N
+
+        comboPlantName.setBackground(new java.awt.Color(217, 235, 249));
+        comboPlantName.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        comboPlantName.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        comboPlantName.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        comboPlantName.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboPlantNameItemStateChanged(evt);
+            }
+        });
+
+        jLabel32.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        jLabel32.setText("Select Plant Name :");
+        jLabel32.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel32MousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
+        jPanel18.setLayout(jPanel18Layout);
+        jPanel18Layout.setHorizontalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addComponent(jLabel32)
+                .addGap(5, 5, 5)
+                .addComponent(comboPlantName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 18, Short.MAX_VALUE))
+        );
+        jPanel18Layout.setVerticalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel32)
+                    .addComponent(comboPlantName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnlPlantSetup.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 300, 70));
+
+        txtPlantDescription.setColumns(20);
+        txtPlantDescription.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        txtPlantDescription.setRows(5);
+        jScrollPane4.setViewportView(txtPlantDescription);
+
+        pnlPlantSetup.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 80, 270, 50));
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        jLabel15.setText("Description of the Plant: ");
+        pnlPlantSetup.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 190, 40));
+
+        jPanel19.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel19.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Add or Update Plant Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 14))); // NOI18N
+
+        jPanel2.setBackground(new java.awt.Color(204, 232, 181));
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-icon.png"))); // NOI18N
+        jButton1.setText("Add New Plant");
+        jButton1.setContentAreaFilled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jButton1)
+                .addGap(0, 9, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jButton1)
+                .addGap(0, 1, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBackground(new java.awt.Color(204, 232, 181));
+        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel3MouseExited(evt);
+            }
+        });
+
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/update-arrows.png"))); // NOI18N
+        jButton3.setText("Update Plant");
+        jButton3.setToolTipText("To update 1st select a row");
+        jButton3.setContentAreaFilled(false);
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton3MouseExited(evt);
+            }
+        });
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jButton3)
+                .addGap(0, 11, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 1, Short.MAX_VALUE)
+                .addComponent(jButton3))
+        );
+
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 12, Short.MAX_VALUE))
+        );
+
+        pnlPlantSetup.add(jPanel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 150, 330, 70));
+
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        tablePlantSetup.setAutoCreateRowSorter(true);
+        tablePlantSetup.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        tablePlantSetup.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        tablePlantSetup.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "id", "Days", "Steps"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablePlantSetup.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tablePlantSetup.setGridColor(new java.awt.Color(204, 204, 204));
+        tablePlantSetup.setRowHeight(25);
+        tablePlantSetup.setSelectionBackground(new java.awt.Color(204, 232, 181));
+        tablePlantSetup.setSelectionForeground(new java.awt.Color(153, 0, 0));
+        jScrollPane2.setViewportView(tablePlantSetup);
+        if (tablePlantSetup.getColumnModel().getColumnCount() > 0) {
+            tablePlantSetup.getColumnModel().getColumn(0).setMinWidth(0);
+            tablePlantSetup.getColumnModel().getColumn(0).setMaxWidth(0);
+            tablePlantSetup.getColumnModel().getColumn(1).setMinWidth(100);
+            tablePlantSetup.getColumnModel().getColumn(1).setMaxWidth(100);
+            tablePlantSetup.getColumnModel().getColumn(2).setMinWidth(1000);
+        }
+
+        pnlPlantSetup.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 840, 290));
+
+        pnlBase.add(pnlPlantSetup);
+
+        pnlDiseaseCure.setBackground(new java.awt.Color(255, 255, 255));
+        pnlDiseaseCure.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel12.setBackground(new java.awt.Color(70, 147, 21));
+        jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/germs.png"))); // NOI18N
+        jLabel16.setText("Disease & Cure");
+        jPanel12.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 170, -1));
+
+        pnlDiseaseCure.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 40));
+
+        jPanel17.setBackground(new java.awt.Color(245, 244, 246));
+        jPanel17.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel39.setFont(new java.awt.Font("Segoe UI Semilight", 0, 14)); // NOI18N
+        jLabel39.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tips.png"))); // NOI18N
+        jLabel39.setText("Click on the tick mark if step is completed.");
+
+        jLabel40.setFont(new java.awt.Font("Segoe UI Semilight", 0, 14)); // NOI18N
+        jLabel40.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tips.png"))); // NOI18N
+        jLabel40.setText("If you need any suggestion, click on the question mark.");
+
+        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+        jPanel17.setLayout(jPanel17Layout);
+        jPanel17Layout.setHorizontalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(517, Short.MAX_VALUE))
+        );
+        jPanel17Layout.setVerticalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel39)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel40)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnlDiseaseCure.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 480, 900, 100));
+
+        tfSearchDisease.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tfSearchDisease.setForeground(new java.awt.Color(153, 153, 153));
+        tfSearchDisease.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfSearchDisease.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        tfSearchDisease.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfSearchDiseaseKeyTyped(evt);
+            }
+        });
+        pnlDiseaseCure.add(tfSearchDisease, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 220, 30));
+
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        tableDisease.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        tableDisease.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        tableDisease.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "id", "Plant Name", "Disease Name", "Symptoms"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tableDisease.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tableDisease.setGridColor(new java.awt.Color(204, 204, 204));
+        tableDisease.setRowHeight(25);
+        tableDisease.setSelectionBackground(new java.awt.Color(204, 232, 181));
+        tableDisease.setSelectionForeground(new java.awt.Color(153, 0, 0));
+        tableDisease.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableDiseaseMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tableDisease);
+        if (tableDisease.getColumnModel().getColumnCount() > 0) {
+            tableDisease.getColumnModel().getColumn(0).setMinWidth(0);
+            tableDisease.getColumnModel().getColumn(0).setMaxWidth(0);
+            tableDisease.getColumnModel().getColumn(1).setMinWidth(130);
+            tableDisease.getColumnModel().getColumn(1).setMaxWidth(150);
+            tableDisease.getColumnModel().getColumn(2).setMinWidth(300);
+            tableDisease.getColumnModel().getColumn(2).setMaxWidth(300);
+            tableDisease.getColumnModel().getColumn(3).setMinWidth(1000);
+        }
+
+        pnlDiseaseCure.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 780, 330));
+
+        jPanel5.setBackground(new java.awt.Color(204, 232, 181));
+
+        jButton4.setBackground(new java.awt.Color(255, 255, 255));
+        jButton4.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-icon.png"))); // NOI18N
+        jButton4.setText("Add Disease Cure");
+        jButton4.setContentAreaFilled(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jButton4)
+                .addGap(0, 13, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(0, 1, Short.MAX_VALUE)
+                .addComponent(jButton4))
+        );
+
+        pnlDiseaseCure.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, 170, 30));
+
+        jPanel6.setBackground(new java.awt.Color(204, 232, 181));
+
+        btnUpdate.setBackground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/update-arrows.png"))); // NOI18N
+        btnUpdate.setText("Update");
+        btnUpdate.setToolTipText("To update 1st select a row");
+        btnUpdate.setContentAreaFilled(false);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(btnUpdate)
+                .addGap(0, 15, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(btnUpdate)
+                .addGap(0, 1, Short.MAX_VALUE))
+        );
+
+        pnlDiseaseCure.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 90, 110, 30));
+
+        jPanel21.setBackground(new java.awt.Color(204, 232, 181));
+
+        btnCure.setBackground(new java.awt.Color(255, 255, 255));
+        btnCure.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        btnCure.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/update-arrows.png"))); // NOI18N
+        btnCure.setText("Cure ");
+        btnCure.setToolTipText("To update 1st select a row");
+        btnCure.setContentAreaFilled(false);
+        btnCure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCureActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
+        jPanel21.setLayout(jPanel21Layout);
+        jPanel21Layout.setHorizontalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel21Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(btnCure)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+        jPanel21Layout.setVerticalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
+                .addGap(0, 1, Short.MAX_VALUE)
+                .addComponent(btnCure))
+        );
+
+        pnlDiseaseCure.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, 120, 30));
+
+        pnlBase.add(pnlDiseaseCure);
+
+        mainPanel.add(pnlBase, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, 900, 580));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void navPlantSetupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navPlantSetupMouseClicked
+        // TODO add your handling code here:
+        
+        
+        ReloadPlantSetp();  
+    }//GEN-LAST:event_navPlantSetupMouseClicked
+
+    private void navCureMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navCureMouseClicked
+        // TODO add your handling code here:
+        panelSwitch(pnlDiseaseCure);
+//        tableHeader(tableDisease);
+//        tableBody(tableDisease);
+        DefaultTableModel model = (DefaultTableModel) tableDisease.getModel();
+        model.setRowCount(0);
+        HashMap<Integer,HashMap> disease_cure = new HashMap<>();
+        
+
+        disease_cure = dc.getAllInformation("disease_tb","");
+      
+        for (Object key : disease_cure.keySet())
+        {
+            model.addRow(new Object[]{disease_cure.get(key).get("id"),disease_cure.get(key).get("plant_name"),disease_cure.get(key).get("name"),disease_cure.get(key).get("symptoms")});  
+        }      
+        tableWidth(tableDisease);
+    }//GEN-LAST:event_navCureMouseClicked
+
+    private void navPlantSetupMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navPlantSetupMouseEntered
+        // TODO add your handling code here:
+        setComponentColor(navPlantSetup);
+    }//GEN-LAST:event_navPlantSetupMouseEntered
+
+    private void navPlantSetupMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navPlantSetupMouseExited
+        // TODO add your handling code here:
+        resetComponentColor(navPlantSetup);
+    }//GEN-LAST:event_navPlantSetupMouseExited
+
+    private void navCureMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navCureMouseEntered
+        // TODO add your handling code here:
+        setComponentColor(navCure);
+    }//GEN-LAST:event_navCureMouseEntered
+
+    private void navCureMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navCureMouseExited
+        // TODO add your handling code here:
+        resetComponentColor(navCure);
+    }//GEN-LAST:event_navCureMouseExited
+
+    private void tfSearchDiseaseKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfSearchDiseaseKeyTyped
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tableDisease.getModel();
+        model.setRowCount(0);
+        HashMap<Integer,HashMap> disease_setup = new HashMap<>();
+        //String id = comboPlantId.getItemAt(comboPlantName.getSelectedIndex());
+        //        if(id == null)
+        //        {
+            //            id = comboPlantId.getItemAt(0);
+            //        }
+        //        System.out.println(id);
+        //        System.out.println(id);
+        disease_setup = dc.getAllInformation("disease_tb"," where symptoms like '%"+tfSearchDisease.getText()+"%' or name like '%"+tfSearchDisease.getText()+"%' or plant_name like '%"+tfSearchDisease.getText()+"%'");
+
+        for (Object key : disease_setup.keySet())
+        {
+            //comboPlantName.addItem(plant_setup.get(key).get("plant_name").toString());
+            model.addRow(new Object[]{disease_setup.get(key).get("id"),disease_setup.get(key).get("plant_name"),disease_setup.get(key).get("name"),disease_setup.get(key).get("symptoms")});
+        }
+    }//GEN-LAST:event_tfSearchDiseaseKeyTyped
+    static int rowCount;
+    private void tableDiseaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDiseaseMouseClicked
+        // TODO add your handling code here:
+
+        rowCount = tableDisease.getSelectedRow();
+        
+    }//GEN-LAST:event_tableDiseaseMouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        DiseaseCure fps = new DiseaseCure();
+        fps.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        int row = tableDisease.getSelectedRow();
+        System.out.println(row);
+        if(row>-1)
+        {
+            DefaultTableModel model2 = (DefaultTableModel)tableDisease.getModel();
+            String id = (String) model2.getValueAt(row,0);
+            DiseaseCure fps = new DiseaseCure(id);
+            fps.setVisible(true);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Please select Disease Name from the below table to update");
+        }
+        
+        
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnCureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCureActionPerformed
+        // TODO add your handling code here:
+        Cure fps = new Cure();
+        DefaultTableModel model2 = (DefaultTableModel)tableDisease.getModel();
+        DefaultTableModel model = (DefaultTableModel) fps.tableCure.getModel();
+        
+        HashMap<Integer,HashMap> cure = new HashMap<>();
+        //        System.out.println(id);
+        cure = dc.getAllInformation("cure_tb"," where disease_id = "+model2.getValueAt(rowCount,0).toString());
+
+        for (Object key : cure.keySet())
+        {
+            model.addRow(new Object[]{cure.get(key).get("cure_steps")});
+        }
+        
+        fps.setVisible(true);
+
+    }//GEN-LAST:event_btnCureActionPerformed
+
+    private void labelLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLogoutMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        frameLogin obj = new frameLogin();
+        obj.setVisible(true);
+    }//GEN-LAST:event_labelLogoutMouseClicked
+
+    private void navLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navLogoutMouseEntered
+        // TODO add your handling code here:
+        setComponentColor(navLogout);
+    }//GEN-LAST:event_navLogoutMouseEntered
+
+    private void navLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navLogoutMouseExited
+        // TODO add your handling code here:
+        resetComponentColor(navLogout);
+    }//GEN-LAST:event_navLogoutMouseExited
+
+    private void navLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navLogoutMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        frameLogin obj = new frameLogin();
+        obj.setVisible(true);
+    }//GEN-LAST:event_navLogoutMouseClicked
+
+    private void labelLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLogoutMouseEntered
+        // TODO add your handling code here:
+        setComponentColor(navLogout);
+    }//GEN-LAST:event_labelLogoutMouseEntered
+
+    private void labelLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLogoutMouseExited
+        // TODO add your handling code here:
+        resetComponentColor(navLogout);
+    }//GEN-LAST:event_labelLogoutMouseExited
+
+    private void comboPlantNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboPlantNameItemStateChanged
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tablePlantSetup.getModel();
+        model.setRowCount(0);
+        HashMap<Integer,HashMap> plant_setup = new HashMap<>();
+        
+        HashMap<Integer,HashMap> plant_description = new HashMap<>();
+        String id = comboPlantId.getItemAt(comboPlantName.getSelectedIndex());
+
+        plant_description = dc.getAllInformation("plant_setup_mst_tb"," where id = "+id);
+        for (Object key : plant_description.keySet())
+        {
+            txtPlantDescription.setText(plant_description.get(key).get("description").toString());
+        }
+
+        plant_setup = dc.getAllInformation("plant_setup_chd_tb"," where plant_id = "+id);
+
+        for (Object key : plant_setup.keySet())
+        {
+            //comboPlantName.addItem(plant_setup.get(key).get("plant_name").toString());
+            model.addRow(new Object[]{plant_setup.get(key).get("id"),plant_setup.get(key).get("days"),plant_setup.get(key).get("steps_desc")});
+
+        }
+    }//GEN-LAST:event_comboPlantNameItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        FormPlantSetup fps = new FormPlantSetup();
+        fps.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3MouseEntered
+
+    private void jButton3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseExited
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jButton3MouseExited
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String id = comboPlantId.getItemAt(comboPlantName.getSelectedIndex());
+        FormPlantSetup fps = new FormPlantSetup(id);
+        fps.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel3MouseEntered
+
+    private void jPanel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel3MouseExited
+
+    private void jLabel32MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel32MousePressed
+        // TODO add your handling code here:
+        comboPlantName.addItem("Add item");
+    }//GEN-LAST:event_jLabel32MousePressed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCure;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> comboPlantId;
+    public javax.swing.JComboBox<String> comboPlantName;
+    private javax.swing.JPanel headerPanel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JLabel labelLogout;
+    private javax.swing.JLabel lblFarmerId;
+    private javax.swing.JLabel lblFarmerType;
+    private javax.swing.JLabel lblWelcomeUser;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JPanel navCure;
+    private javax.swing.JPanel navLogout;
+    private javax.swing.JPanel navPlantSetup;
+    private javax.swing.JLayeredPane pnlBase;
+    private javax.swing.JPanel pnlDiseaseCure;
+    private javax.swing.JPanel pnlPlantSetup;
+    private javax.swing.JPanel sideNavPanel;
+    private javax.swing.JTable tableDisease;
+    private javax.swing.JTable tablePlantSetup;
+    private javax.swing.JTextField tfSearchDisease;
+    private javax.swing.JTextArea txtPlantDescription;
+    // End of variables declaration//GEN-END:variables
+}
